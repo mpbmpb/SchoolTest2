@@ -1,0 +1,28 @@
+﻿@model AddSubjectViewModel
+
+@{
+    ViewData["Title"] = "Add Subject";
+}
+    <div >
+        <h4 class="category-heading">Add Subject for @Model.Day.Name</h4>
+    </div>
+<hr />
+
+<p class="alert-danger">@TempData["ErrorMessage"]</p>
+
+<form method="post">
+    <div asp-validation-summary="All"></div>
+    <div class="form-group">
+        <label asp-for="DaySubject.SubjectId" class="col-form-label">Choose Subject</label>
+        <div>
+            <select asp-for="DaySubject.SubjectId" asp-items="Model.Subjects" class="custom-select col-sm-3"></select>
+        </div>
+        <span asp-validation-for="DaySubject.SubjectId"></span>
+    </div>
+
+    <input type="hidden" name="DaySubject.DayId" value="@Model.Day.DayId" />
+    <div class="col-sm-0 mt-5">
+        <input type="submit" value="Add" class="btn btn-primary" />
+        <a asp-action="Index" class="btn btn-primary">Back to List</a>
+    </div>
+</form>

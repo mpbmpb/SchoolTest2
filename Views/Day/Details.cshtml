@@ -1,0 +1,48 @@
+@model List<Day>
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+    <h4 class="category-heading mb-3">Day Details</h4>
+@foreach (var item in Model)
+{
+    <table class="table">
+        <thead class="thead-dark">
+            <tr>
+                <th>@item.Name</th>
+
+                <th>Subjects</th>
+                <th>Description</th>
+                <th>Required Reading</th>
+            </tr>
+        </thead>
+
+        <tbody>
+        @foreach (var ds in item.DaySubjects)
+        {
+            <tr>
+                <td></td>
+                <td>@ds.Subject.Name</td>
+                <td>@ds.Subject.Description</td>
+                <td>@ds.Subject.RequiredReading</td>
+            </tr>
+        }
+        </tbody>
+    </table>
+    <div>
+        <a asp-action="Edit" asp-route-id="@item.DayId" class="btn btn-primary">Edit</a>
+        <a asp-action="AddSubject" asp-route-id="@item.DayId" class="btn btn-primary">Add Subject</a>
+        <a asp-action="Index" class="btn btn-primary">Back to List</a>
+    </div>
+
+}
+
+
+
+
+
+
+
+
+    

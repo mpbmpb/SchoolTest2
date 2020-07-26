@@ -1,7 +1,14 @@
-﻿<Properties StartupConfiguration="{2B1A5A25-5F4B-4E78-8F54-D6F20A5D94FC}|Default">
-  <MonoDevelop.Ide.Workbench ActiveDocument="Views/Subject/Index.cshtml">
+﻿<Properties GitUserInfo="UsingGIT" StartupConfiguration="{2B1A5A25-5F4B-4E78-8F54-D6F20A5D94FC}|Default">
+  <MonoDevelop.Ide.Workbench>
     <Files>
-      <File FileName="Views/Subject/Index.cshtml" Line="23" Column="25" />
+      <File FileName="Views/Day/Create.cshtml" Line="14" Column="70" />
+      <File FileName="Views/Seminar/Create.cshtml" Line="20" Column="98" />
+      <File FileName="ViewModels/CreateDayViewModel.cs" Line="10" Column="55" />
+      <File FileName="ViewModels/CreateSeminarViewModel.cs" Line="31" Column="10" />
+      <File FileName="Controllers/DayController.cs" Line="28" Column="48" />
+      <File FileName="Controllers/SeminarController.cs" Line="28" Column="47" />
+      <File FileName="Views/Day/Index.cshtml" Line="34" Column="18" />
+      <File FileName="Views/Seminar/Index.cshtml" Line="20" Column="13" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -13,14 +20,14 @@
               <Node name="ViewModels" expanded="True" />
               <Node name="Views" expanded="True">
                 <Node name="Day" expanded="True" />
-                <Node name="Shared" expanded="True" />
-                <Node name="Subject" expanded="True">
-                  <Node name="Index.cshtml" selected="True" />
+                <Node name="Seminar" expanded="True">
+                  <Node name="Create.cshtml" selected="True" />
                 </Node>
+                <Node name="Shared" expanded="True" />
+                <Node name="Subject" expanded="True" />
               </Node>
               <Node name="wwwroot" expanded="True">
                 <Node name="css" expanded="True" />
-                <Node name="lib" expanded="True" />
               </Node>
             </Node>
           </Node>

@@ -1,16 +1,9 @@
 ﻿<Properties GitUserInfo="UsingGIT" StartupConfiguration="{2B1A5A25-5F4B-4E78-8F54-D6F20A5D94FC}|Default">
-  <MonoDevelop.Ide.Workbench ActiveDocument="Views/Seminar/Details.cshtml">
+  <MonoDevelop.Ide.Workbench>
     <Files>
-      <File FileName="Views/Day/Create.cshtml" Line="12" Column="5" />
-      <File FileName="ViewModels/EditDayViewModel.cs" Line="27" Column="18" />
-      <File FileName="ViewModels/CreateSeminarViewModel.cs" Line="4" Column="1" />
-      <File FileName="Controllers/DayController.cs" Line="147" Column="31" />
-      <File FileName="Controllers/SeminarController.cs" Line="177" Column="56" />
-      <File FileName="Views/Seminar/Create.cshtml" Line="54" Column="19" />
-      <File FileName="Views/Seminar/Edit.cshtml" Line="51" Column="41" />
-      <File FileName="ViewModels/EditSeminarViewModel.cs" Line="34" Column="19" />
-      <File FileName="Views/Day/Edit.cshtml" Line="1" Column="1" />
-      <File FileName="Views/Seminar/Details.cshtml" Line="38" Column="37" />
+      <File FileName="Views/Seminar/Details.cshtml" Line="1" Column="28" />
+      <File FileName="Models/Seminar.cs" Line="17" Column="1" />
+      <File FileName="Program.cs" Line="27" Column="2" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -19,19 +12,17 @@
             <Node name="SchoolTest2" expanded="True">
               <Node name="Controllers" expanded="True" />
               <Node name="Models" expanded="True" />
-              <Node name="ViewModels" expanded="True" />
               <Node name="Views" expanded="True">
-                <Node name="Day" expanded="True" />
-                <Node name="Seminar" expanded="True">
-                  <Node name="Details.cshtml" selected="True" />
-                </Node>
-                <Node name="Shared" expanded="True" />
+                <Node name="Seminar" expanded="True" />
               </Node>
-              <Node name="wwwroot" expanded="True">
-                <Node name="css" expanded="True" />
-              </Node>
+              <Node name="Program.cs" selected="True" />
             </Node>
           </Node>
+        </State>
+      </Pad>
+      <Pad Id="ClassPad">
+        <State name="__root__">
+          <Node name="SchoolTest2" expanded="True" selected="True" />
         </State>
       </Pad>
     </Pads>

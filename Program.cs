@@ -25,3 +25,21 @@ namespace SchoolTest2
                 });
     }
 }
+
+//TODO make courseModel class & courseSeminar m2m class
+
+//TODO make workshopModel class & workshopDay m2m class
+
+//TODO make course class holds courseModel and list of all dates, times, places for days
+
+//TODO make workshop class holds workshopModel and list of all dates, times, places for days
+
+//TODO make calendar class that tracks all events
+
+//TODO make student class
+
+//TODO make teacher class
+
+//TODO make enrollment class (m2m)
+
+//TODO add login / roles

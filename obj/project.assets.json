@@ -8640,7 +8640,7 @@
       "outputPath": "/Users/Mark/Dropbox/Code/C#/Freubel/SchoolTest2/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "/Users/Mark/.nuget/NuGet/NuGet.Config"
+        "/Users/Mark/.config/NuGet/NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "netcoreapp3.1"

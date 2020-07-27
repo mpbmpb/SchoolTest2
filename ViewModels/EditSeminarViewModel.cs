@@ -1,32 +1,36 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using SchoolTest2.Models;
+
 
 namespace SchoolTest2.ViewModels
 {
-    public class CreateSeminarViewModel
+    public class EditSeminarViewModel
     {
         public Seminar Seminar { get; set; }
         public List<CheckedId> CheckList { get; set; }
         public List<Day> Days { get; set; }
 
-        public CreateSeminarViewModel()
+        public EditSeminarViewModel()
         {
         }
 
-        public CreateSeminarViewModel(List<Day> days)
+        public EditSeminarViewModel(Seminar seminar, List<Day> days)
         {
-            Seminar = new Seminar();
+            Seminar = seminar;
             CheckList = new List<CheckedId>();
             Days = days;
 
             foreach (var day in days)
             {
+                bool isInSeminarDays = (Seminar.SeminarDays.Any(x => x.DayId == day.DayId));
+
                 var check = new CheckedId()
                 {
                     Id = day.DayId,
                     Name = day.Name,
-                    IsSelected = false
+                    IsSelected = isInSeminarDays
                 };
                 CheckList.Add(check);
             }

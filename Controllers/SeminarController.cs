@@ -36,9 +36,14 @@ namespace SchoolTest2.Controllers
             {
                 return NotFound();
             }
-
-            var seminar = await _context.Seminars
-                .FirstOrDefaultAsync(m => m.SeminarId == id);
+            Seminar seminar = await _context.Seminars
+               .Where(s => s.SeminarId == id)
+               .Include(d => d.SeminarDays)
+               .ThenInclude(sd => sd.Day)
+               .ThenInclude(x => x.DaySubjects)
+               .ThenInclude(y => y.Subject)
+               .FirstOrDefaultAsync();
+            
             if (seminar == null)
             {
                 return NotFound();
@@ -50,7 +55,10 @@ namespace SchoolTest2.Controllers
         // GET: Seminar/Create
         public IActionResult Create()
         {
-            var days = _context.Days.ToList();
+            var days = _context.Days
+                .Include(d => d.DaySubjects)
+                .ThenInclude(ds => ds.Subject)
+                .ToList();
             var viewModel = new CreateSeminarViewModel(days);
 
             return View(viewModel);
@@ -98,12 +106,19 @@ namespace SchoolTest2.Controllers
                 return NotFound();
             }
 
-            var seminar = await _context.Seminars.FindAsync(id);
+            var seminar = await _context.Seminars
+                .Include(s => s.SeminarDays)
+                .SingleAsync(x => x.SeminarId == id);
             if (seminar == null)
             {
                 return NotFound();
             }
-            return View(seminar);
+            var days = await _context.Days
+                .Include(d => d.DaySubjects)
+                .ThenInclude(ds => ds.Subject)
+                .ToListAsync();
+
+            return View(new EditSeminarViewModel(seminar, days));
         }
 
         // POST: Seminar/Edit/5
@@ -111,9 +126,11 @@ namespace SchoolTest2.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("SeminarId,Name,Description")] Seminar seminar)
+        public async Task<IActionResult> Edit(int id, EditSeminarViewModel model)
         {
-            if (id != seminar.SeminarId)
+            int seminarId = model.Seminar.SeminarId;
+            var seminarDays = await _context.SeminarDays.ToListAsync();
+            if (id != seminarId)
             {
                 return NotFound();
             }
@@ -122,12 +139,12 @@ namespace SchoolTest2.Controllers
             {
                 try
                 {
-                    _context.Update(seminar);
+                    _context.Update(model.Seminar);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!SeminarExists(seminar.SeminarId))
+                    if (!SeminarExists(seminarId))
                     {
                         return NotFound();
                     }
@@ -136,9 +153,30 @@ namespace SchoolTest2.Controllers
                         throw;
                     }
                 }
+                foreach (var item in model.CheckList)
+                {
+                    var existingEntry = seminarDays.FirstOrDefault(
+                                            x => x.SeminarId == seminarId && x.DayId == item.Id);
+                    if (!item.IsSelected && existingEntry != null)
+                    {
+                        _context.Remove(existingEntry);
+                    }
+
+                    if (item.IsSelected && existingEntry == null)
+                    {
+                        SeminarDay ss = new SeminarDay()
+                        {
+                            SeminarId = seminarId,
+                            DayId = item.Id
+                        };
+                        _context.Add(ss);
+                    }
+                }
+
+                await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(seminar);
+            return View(model);
         }
 
         // GET: Seminar/Delete/5

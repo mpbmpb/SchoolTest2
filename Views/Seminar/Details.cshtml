@@ -5,10 +5,8 @@
 }
 
 <h4 class="category-heading mb-3">Seminar details</h4>
-
+<hr />
 <div>
-    <h4>Seminar</h4>
-    <hr />
     <dl class="row">
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.Name)
@@ -24,6 +22,32 @@
         </dd>
     </dl>
 </div>
+<hr />
+<div>
+    <table>
+        <thead>
+            <tr>
+                <th>Contains day</th>
+                <th>with subjects</th>
+            </tr>
+        </thead>
+        <tbody>
+@foreach (var semDay in Model.SeminarDays)
+{
+            <tr>
+                <td>@semDay.Day.Name &nbsp;</td>
+                <td>
+    @foreach (var daySub in semDay.Day.DaySubjects)
+    {
+                    @daySub.Subject.Name
+    }
+                </td>
+            </tr>
+}
+        </tbody>
+    </table>
+</div>
+
 <div>
     <a asp-action="Edit" asp-route-id="@Model.SeminarId" class="btn btn-primary">Edit</a>
     <a asp-action="Index" class="btn btn-primary">Back to List</a>

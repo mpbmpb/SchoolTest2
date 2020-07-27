@@ -119,7 +119,7 @@ namespace SchoolTest2.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, CreateDayViewModel model)
+        public async Task<IActionResult> Edit(int id, EditDayViewModel model)
         {
             int dayId = model.Day.DayId;
             var daySubjects = _context.DaySubjects.ToList();

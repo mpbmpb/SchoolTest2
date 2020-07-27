@@ -10,11 +10,11 @@
     <div class="col-12">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="col-sm-4 pl-0">
-                <label asp-for="@Model.Day.Name" class="control-label font-weight-bold"></label>
-                <input asp-for="@Model.Day.Name" class="form-control" />
-                <span asp-validation-for="Day.Name" class="text-danger"></span>
-            </div>
+                <div class="col-sm-4 pl-0">
+                    <label asp-for="@Model.Day.Name" class="control-label font-weight-bold"></label>
+                    <input asp-for="@Model.Day.Name" class="form-control" />
+                    <span asp-validation-for="Day.Name" class="text-danger"></span>
+                </div>
             <hr />
             <p><b>Add Subjects</b></p>
             <div class="form-inline">

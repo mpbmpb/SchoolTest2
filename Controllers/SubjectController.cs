@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using SchoolTest2.Data;
 using SchoolTest2.Models;
 
 namespace SchoolTest2.Controllers
@@ -12,19 +13,18 @@ namespace SchoolTest2.Controllers
     public class SubjectController : Controller
     {
         private readonly SchoolContext _context;
+        private readonly DbHandler _db;
 
         public SubjectController(SchoolContext context)
         {
             _context = context;
+            _db = new DbHandler(context);
         }
 
         // GET: Subject
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Subjects
-                .Include(s => s.DaySubjects)
-                .ThenInclude(ds => ds.Day)
-                .ToListAsync());
+            return View(await _db.GetAllSubjectsIncludeDaysAsync());
         }
 
         // GET: Subject/Details/5
@@ -35,8 +35,7 @@ namespace SchoolTest2.Controllers
                 return NotFound();
             }
 
-            var subject = await _context.Subjects
-                .FirstOrDefaultAsync(m => m.SubjectId == id);
+            var subject = await _db.GetSubjectAsync((int)id);
             if (subject == null)
             {
                 return NotFound();
@@ -60,8 +59,7 @@ namespace SchoolTest2.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Add(subject);
-                await _context.SaveChangesAsync();
+                await _db.AddAsync(subject);
                 return RedirectToAction(nameof(Index));
             }
             return View(subject);
@@ -75,7 +73,7 @@ namespace SchoolTest2.Controllers
                 return NotFound();
             }
 
-            var subject = await _context.Subjects.FindAsync(id);
+            var subject = await _db.GetSubjectAsync((int)id);
             if (subject == null)
             {
                 return NotFound();
@@ -97,21 +95,10 @@ namespace SchoolTest2.Controllers
 
             if (ModelState.IsValid)
             {
-                try
+                bool updateSucces = await _db.UpdateAsync(subject);
+                if (!updateSucces)
                 {
-                    _context.Update(subject);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!SubjectExists(subject.SubjectId))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
+                    return NotFound();
                 }
                 return RedirectToAction(nameof(Index));
             }
@@ -126,8 +113,7 @@ namespace SchoolTest2.Controllers
                 return NotFound();
             }
 
-            var subject = await _context.Subjects
-                .FirstOrDefaultAsync(m => m.SubjectId == id);
+            var subject = await _db.GetSubjectAsync((int)id);
             if (subject == null)
             {
                 return NotFound();
@@ -142,14 +128,8 @@ namespace SchoolTest2.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var subject = await _context.Subjects.FindAsync(id);
-            _context.Subjects.Remove(subject);
-            await _context.SaveChangesAsync();
+            await _db.RemoveAsync(subject);
             return RedirectToAction(nameof(Index));
-        }
-
-        private bool SubjectExists(int id)
-        {
-            return _context.Subjects.Any(e => e.SubjectId == id);
         }
     }
 }

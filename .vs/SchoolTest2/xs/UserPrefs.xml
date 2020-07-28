@@ -2,10 +2,12 @@
   <MonoDevelop.Ide.Workbench>
     <Files>
       <File FileName="Program.cs" Line="30" Column="41" />
-      <File FileName="Controllers/DayController.cs" Line="60" Column="10" />
-      <File FileName="Controllers/SeminarController.cs" Line="192" Column="33" />
-      <File FileName="Controllers/SubjectController.cs" Line="98" Column="53" />
-      <File FileName="Data/DbHandler.cs" Line="30" Column="37" />
+      <File FileName="Controllers/SeminarController.cs" Line="22" Column="42" />
+      <File FileName="Controllers/DayController.cs" Line="38" Column="21" />
+      <File FileName="Data/DbHandler.cs" Line="81" Column="58" />
+      <File FileName="Views/Day/Index.cshtml" Line="1" Column="8" />
+      <File FileName="Views/Day/Details.cshtml" Line="1" Column="1" />
+      <File FileName="ViewModels/DayViewModel.cs" Line="34" Column="49" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -13,12 +15,13 @@
           <Node name="SchoolTest2" expanded="True">
             <Node name="SchoolTest2" expanded="True">
               <Node name="Controllers" expanded="True">
-                <Node name="SubjectController.cs" selected="True" />
+                <Node name="DayController.cs" selected="True" />
               </Node>
               <Node name="Data" expanded="True" />
               <Node name="Models" expanded="True" />
               <Node name="ViewModels" expanded="True" />
               <Node name="Views" expanded="True">
+                <Node name="Day" expanded="True" />
                 <Node name="Seminar" expanded="True" />
               </Node>
             </Node>

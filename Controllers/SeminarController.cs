@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using SchoolTest2.Data;
 using SchoolTest2.Models;
 using SchoolTest2.ViewModels;
 
@@ -13,10 +14,12 @@ namespace SchoolTest2.Controllers
     public class SeminarController : Controller
     {
         private readonly SchoolContext _context;
+        private readonly DbHandler _db;
 
         public SeminarController(SchoolContext context)
         {
             _context = context;
+            _db = new DbHandler(context);
         }
 
         // GET: Seminar

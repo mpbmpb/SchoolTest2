@@ -31,7 +31,7 @@ namespace SchoolTest2.ViewModels
             }
         }
 
-        public DayViewModel(Day day, List<Subject> subjects)
+        public DayViewModel(Day day, IEnumerable<Subject> subjects)
         {
             Day = day;
             CheckList = new List<CheckedId>();

@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using SchoolTest2.Data;
 using SchoolTest2.Models;
 using SchoolTest2.ViewModels;
 
@@ -13,20 +14,18 @@ namespace SchoolTest2.Controllers
     public class DayController : Controller
     {
         private readonly SchoolContext _context;
+        private readonly DbHandler _db;
 
         public DayController(SchoolContext context)
         {
             _context = context;
+            _db = new DbHandler(context);
         }
 
         // GET: Day
         public async Task<IActionResult> Index()
         { 
-            return View(await _context.Days
-                .Include(d => d.DaySubjects)
-                .ThenInclude(ds => ds.Subject)
-                .OrderBy(d => d.Name.ToLower())
-                .ToListAsync());
+            return View(await _db.GetAllDaysAsync());
         }
 
         // GET: Day/Details/5
@@ -36,7 +35,7 @@ namespace SchoolTest2.Controllers
             {
                 return NotFound();
             }
-
+            // TODO next to refactor
             var day = await _context.Days
                 .Where(m => m.DayId == id)
                 .Include(d => d.DaySubjects)
@@ -69,25 +68,7 @@ namespace SchoolTest2.Controllers
             
             if (ModelState.IsValid)
             {
-                var day = new Day();
-                day.Name = model.Day.Name;
-                _context.Add(day);
-                await _context.SaveChangesAsync();
-
-                foreach (var item in model.CheckList)
-                {
-                    if (item.IsSelected)
-                    {
-                        DaySubject ds = new DaySubject()
-                        {
-                            DayId = day.DayId,
-                            SubjectId = item.Id
-                        };
-                        _context.Add(ds);
-                    }
-                }
-
-                await _context.SaveChangesAsync();
+                await _db.AddDayAsync(model);
                 return RedirectToAction(nameof(Index));
             }
             return View(model);
@@ -101,15 +82,13 @@ namespace SchoolTest2.Controllers
                 return NotFound();
             }
 
-            var day = _context.Days
-                        .Include(d => d.DaySubjects)
-                        .Single(d => d.DayId == id);
+            var day = await _db.GetDayIncludeSubjectsAsync(id);
 
             if (day == null)
             {
                 return NotFound();
             }
-            var subjects = await _context.Subjects.ToListAsync();
+            var subjects = await _db.GetAllSubjectsAsync();
 
             return View(new DayViewModel(day, subjects));
         }

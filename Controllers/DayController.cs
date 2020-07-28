@@ -54,7 +54,7 @@ namespace SchoolTest2.Controllers
         public IActionResult Create()
         {
             var subjects = _context.Subjects.ToList();
-            var viewModel = new CreateDayViewModel(subjects);
+            var viewModel = new DayViewModel(subjects);
 
             return View(viewModel);
         }
@@ -64,7 +64,7 @@ namespace SchoolTest2.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(CreateDayViewModel model)
+        public async Task<IActionResult> Create(DayViewModel model)
         {
             
             if (ModelState.IsValid)
@@ -111,7 +111,7 @@ namespace SchoolTest2.Controllers
             }
             var subjects = await _context.Subjects.ToListAsync();
 
-            return View(new EditDayViewModel(day, subjects));
+            return View(new DayViewModel(day, subjects));
         }
 
         // POST: Day/Edit/5
@@ -119,7 +119,7 @@ namespace SchoolTest2.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, EditDayViewModel model)
+        public async Task<IActionResult> Edit(int id, DayViewModel model)
         {
             int dayId = model.Day.DayId;
             var daySubjects = _context.DaySubjects.ToList();

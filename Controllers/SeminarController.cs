@@ -59,7 +59,7 @@ namespace SchoolTest2.Controllers
                 .Include(d => d.DaySubjects)
                 .ThenInclude(ds => ds.Subject)
                 .ToList();
-            var viewModel = new CreateSeminarViewModel(days);
+            var viewModel = new SeminarViewModel(days);
 
             return View(viewModel);
         }
@@ -69,7 +69,7 @@ namespace SchoolTest2.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(CreateSeminarViewModel model)
+        public async Task<IActionResult> Create(SeminarViewModel model)
         {
             if (ModelState.IsValid)
             {
@@ -118,7 +118,7 @@ namespace SchoolTest2.Controllers
                 .ThenInclude(ds => ds.Subject)
                 .ToListAsync();
 
-            return View(new EditSeminarViewModel(seminar, days));
+            return View(new SeminarViewModel(seminar, days));
         }
 
         // POST: Seminar/Edit/5
@@ -126,7 +126,7 @@ namespace SchoolTest2.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, EditSeminarViewModel model)
+        public async Task<IActionResult> Edit(int id, SeminarViewModel model)
         {
             int seminarId = model.Seminar.SeminarId;
             var seminarDays = await _context.SeminarDays.ToListAsync();

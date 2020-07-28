@@ -26,6 +26,9 @@ namespace SchoolTest2
     }
 }
 
+//TODO REFACTOR!! edit-create dayviewmodels and seminarviewmodels -> 1 with overload constructor
+//     make viewmodelBuilder & dbUpdater
+
 //TODO make courseModel class & courseSeminar m2m class
 
 //TODO make workshopModel class & workshopDay m2m class

@@ -26,16 +26,12 @@ namespace SchoolTest2
     }
 }
 
-//TODO REFACTOR!! edit-create dayviewmodels and seminarviewmodels -> 1 with overload constructor
-//     make viewmodelBuilder & dbUpdater
 
-//TODO make courseModel class & courseSeminar m2m class
+//TODO refactor courseDesignController
 
-//TODO make workshopModel class & workshopDay m2m class
+//TODO add days and subjects to courseDesign views
 
-//TODO make course class holds courseModel and list of all dates, times, places for days
-
-//TODO make workshop class holds workshopModel and list of all dates, times, places for days
+//TODO make course class holds courseDesign and list of all dates, times, places for days
 
 //TODO make calendar class that tracks all events
 

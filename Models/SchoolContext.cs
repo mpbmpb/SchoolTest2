@@ -1,7 +1,8 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
+using SchoolTest2.Models;
 
 namespace SchoolTest2.Models
 {
@@ -30,6 +31,8 @@ namespace SchoolTest2.Models
             modelBuilder.Entity<CourseSeminar>()
                 .HasKey(cs => new { cs.CourseDesignId, cs.SeminarId });
         }
+
+        public DbSet<SchoolTest2.Models.CourseDesign> CourseDesign { get; set; }
         
     }
 }

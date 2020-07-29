@@ -25,6 +25,7 @@ namespace SchoolTest2.ViewModels
                 {
                     Id = subject.SubjectId,
                     Name = subject.Name,
+                    Description = subject.Description,
                     IsSelected = false
                 };
                 CheckList.Add(check);
@@ -44,6 +45,7 @@ namespace SchoolTest2.ViewModels
                 {
                     Id = subject.SubjectId,
                     Name = subject.Name,
+                    Description = subject.Description,
                     IsSelected = isInDaySubjects
                 };
 

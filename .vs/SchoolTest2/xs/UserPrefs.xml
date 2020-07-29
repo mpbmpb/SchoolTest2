@@ -1,13 +1,10 @@
 ﻿<Properties GitUserInfo="UsingGIT" StartupConfiguration="{2B1A5A25-5F4B-4E78-8F54-D6F20A5D94FC}|Default">
   <MonoDevelop.Ide.Workbench>
     <Files>
-      <File FileName="Program.cs" Line="30" Column="41" />
+      <File FileName="Program.cs" Line="29" Column="3" />
+      <File FileName="ViewModels/DayViewModel.cs" Line="11" Column="16" />
+      <File FileName="Controllers/DayController.cs" Line="138" Column="10" />
       <File FileName="Controllers/SeminarController.cs" Line="22" Column="42" />
-      <File FileName="Controllers/DayController.cs" Line="38" Column="21" />
-      <File FileName="Data/DbHandler.cs" Line="81" Column="58" />
-      <File FileName="Views/Day/Index.cshtml" Line="1" Column="8" />
-      <File FileName="Views/Day/Details.cshtml" Line="1" Column="1" />
-      <File FileName="ViewModels/DayViewModel.cs" Line="34" Column="49" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -15,7 +12,7 @@
           <Node name="SchoolTest2" expanded="True">
             <Node name="SchoolTest2" expanded="True">
               <Node name="Controllers" expanded="True">
-                <Node name="DayController.cs" selected="True" />
+                <Node name="SeminarController.cs" selected="True" />
               </Node>
               <Node name="Data" expanded="True" />
               <Node name="Models" expanded="True" />
@@ -23,9 +20,17 @@
               <Node name="Views" expanded="True">
                 <Node name="Day" expanded="True" />
                 <Node name="Seminar" expanded="True" />
+                <Node name="Subject" expanded="True" />
               </Node>
             </Node>
           </Node>
+        </State>
+      </Pad>
+      <Pad Id="MonoDevelop.Debugger.WatchPad">
+        <State>
+          <Value>Day.DaySubjects[0].Subject</Value>
+          <Value>day.DaySubjects[0].Subject</Value>
+          <Value>day.DaySubjects</Value>
         </State>
       </Pad>
     </Pads>

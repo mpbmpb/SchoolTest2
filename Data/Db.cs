@@ -48,6 +48,51 @@ namespace SchoolTest2.Data
             await _context.SaveChangesAsync();
         }
 
+        public async Task<Day> GetDayAsync(int id)
+        {
+            return await _context.Days.FindAsync(id);
+        }
+
+        public async Task<Day> GetDayIncludeSubjectsAsync(int? id)
+        {
+            return await _context.Days
+                .Include(d => d.DaySubjects)
+                .ThenInclude(ds => ds.Subject)
+                .SingleAsync(d => d.DayId == id);
+        }
+
+        public async Task<IEnumerable<Day>> GetAllDaysAsync()
+        {
+            return await _context.Days
+                .Include(d => d.DaySubjects)
+                .ThenInclude(ds => ds.Subject)
+                .OrderBy(d => d.Name.ToLower())
+                .ToListAsync();
+        }
+
+        public async Task<Subject> GetSubjectAsync(int id)
+        {
+            return await _context.Subjects.FindAsync(id);
+        }
+
+        public async Task<List<Subject>> GetAllSubjectsAsync()
+        {
+            return await _context.Subjects.ToListAsync();
+        }
+
+        public async Task<IEnumerable<Subject>> GetAllSubjectsIncludeDaysAsync()
+        {
+            return await _context.Subjects
+                .Include(s => s.DaySubjects)
+                .ThenInclude(ds => ds.Day)
+                .ToListAsync();
+        }
+
+        public async Task<List<DaySubject>> GetAllDaySubjectsAsync()
+        {
+            return await _context.DaySubjects.ToListAsync();
+        }
+
         public async Task RemoveAsync(Object entity)
         {
             _context.Remove(entity);
@@ -68,46 +113,37 @@ namespace SchoolTest2.Data
             return true ;
         }
 
-        public async Task<Subject> GetSubjectAsync(int id)
+        public async Task<bool> UpdateDayAsync(DayViewModel model)
         {
-            return await _context.Subjects.FindAsync(id);
+            bool succes = await UpdateAsync(model.Day);
+            if (!succes) { return false; }
+            var daySubjects = await GetAllDaySubjectsAsync();
+
+            foreach (var item in model.CheckList)
+            {
+                var existingEntry = daySubjects
+                    .FirstOrDefault(x => x.DayId == model.Day.DayId && x.SubjectId == item.Id);
+                if (!item.IsSelected && existingEntry != null)
+                {
+                    await RemoveAsync(existingEntry);
+                }
+
+                if (item.IsSelected && existingEntry == null)
+                {
+                    DaySubject ds = new DaySubject()
+                    {
+                        DayId = model.Day.DayId,
+                        SubjectId = item.Id
+                    };
+                    _context.Add(ds);
+                }
+            }
+
+            await _context.SaveChangesAsync();
+            return true;
         }
 
-        public async Task<Day> GetDayAsync(int id)
-        {
-            return await _context.Days.FindAsync(id);
-        }
         
-        public async Task<Day> GetDayIncludeSubjectsAsync(int? id)
-        {
-            return await _context.Days
-                .Include(d => d.DaySubjects)
-                .SingleAsync(d => d.DayId == id);
-        }
-
-
-
-        public async Task<IEnumerable<Subject>> GetAllSubjectsAsync()
-        {
-            return await _context.Subjects.ToListAsync();
-        }
-        
-        public async Task<IEnumerable<Day>> GetAllDaysAsync()
-        {
-            return await _context.Days
-                .Include(d => d.DaySubjects)
-                .ThenInclude(ds => ds.Subject)
-                .OrderBy(d => d.Name.ToLower())
-                .ToListAsync();
-        }
-
-        public async Task<IEnumerable<Subject>> GetAllSubjectsIncludeDaysAsync()
-        {
-            return await _context.Subjects
-                .Include(s => s.DaySubjects)
-                .ThenInclude(ds => ds.Day)
-                .ToListAsync();
-        }
 
     }
 

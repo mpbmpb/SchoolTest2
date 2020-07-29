@@ -338,7 +338,6 @@
 /Users/Mark/Dropbox/Code/C#/Freubel/SchoolTest2/obj/Debug/netcoreapp3.1/Razor/Views/Day/Details.cshtml.g.cs
 /Users/Mark/Dropbox/Code/C#/Freubel/SchoolTest2/obj/Debug/netcoreapp3.1/Razor/Views/Day/Edit.cshtml.g.cs
 /Users/Mark/Dropbox/Code/C#/Freubel/SchoolTest2/obj/Debug/netcoreapp3.1/Razor/Views/Day/Index.cshtml.g.cs
-/Users/Mark/Dropbox/Code/C#/Freubel/SchoolTest2/obj/Debug/netcoreapp3.1/Razor/Views/Day/AddSubject.cshtml.g.cs
 /Users/Mark/Dropbox/Code/C#/Freubel/SchoolTest2/obj/Debug/netcoreapp3.1/Razor/Views/Subject/Delete.cshtml.g.cs
 /Users/Mark/Dropbox/Code/C#/Freubel/SchoolTest2/obj/Debug/netcoreapp3.1/Razor/Views/Seminar/Create.cshtml.g.cs
 /Users/Mark/Dropbox/Code/C#/Freubel/SchoolTest2/obj/Debug/netcoreapp3.1/Razor/Views/Seminar/Delete.cshtml.g.cs

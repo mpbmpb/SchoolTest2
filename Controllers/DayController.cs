@@ -35,32 +35,25 @@ namespace SchoolTest2.Controllers
             {
                 return NotFound();
             }
-            // TODO next to refactor
-            var day = await _context.Days
-                .Where(m => m.DayId == id)
-                .Include(d => d.DaySubjects)
-                .ThenInclude(ds => ds.Subject)
-                .ToListAsync();
+
+            var day = await _db.GetDayIncludeSubjectsAsync(id);
             if (day == null)
             {
                 return NotFound();
             }
-
+            
             return View(day);
         }
 
         // GET: Day/Create
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
-            var subjects = _context.Subjects.ToList();
-            var viewModel = new DayViewModel(subjects);
+            var subjects = await _db.GetAllSubjectsAsync();
 
-            return View(viewModel);
+            return View(new DayViewModel(subjects));
         }
 
         // POST: Day/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(DayViewModel model)
@@ -101,7 +94,6 @@ namespace SchoolTest2.Controllers
         public async Task<IActionResult> Edit(int id, DayViewModel model)
         {
             int dayId = model.Day.DayId;
-            var daySubjects = _context.DaySubjects.ToList();
 
             if (id != dayId)
             {
@@ -110,44 +102,9 @@ namespace SchoolTest2.Controllers
 
             if (ModelState.IsValid)
             {
-                try
-                {
-                    _context.Update(model.Day);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!DayExists(dayId))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                foreach (var item in model.CheckList)
-                {
-                    var existingEntry = daySubjects.FirstOrDefault(
-                                            x => x.DayId == dayId && x.SubjectId == item.Id);
-                    if (!item.IsSelected && existingEntry != null)
-                    {
-                        _context.Remove(existingEntry);
-                    }
-
-                    if (item.IsSelected && existingEntry == null)
-                    {
-                        DaySubject ds = new DaySubject()
-                        {
-                            DayId = dayId,
-                            SubjectId = item.Id
-                        };
-                        _context.Add(ds);
-                    }
-                }
-
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                bool succes = await _db.UpdateDayAsync(model);
+                if (succes) { return RedirectToAction(nameof(Index)); }
+                return NotFound();
             }
             return View(model);
         }
@@ -160,8 +117,7 @@ namespace SchoolTest2.Controllers
                 return NotFound();
             }
 
-            var day = await _context.Days
-                .FirstOrDefaultAsync(m => m.DayId == id);
+            var day = await _db.GetDayAsync((int)id);
             if (day == null)
             {
                 return NotFound();
@@ -176,45 +132,9 @@ namespace SchoolTest2.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var day = await _context.Days.FindAsync(id);
-            _context.Days.Remove(day);
-            await _context.SaveChangesAsync();
+            
+            await _db.RemoveAsync(day);
             return RedirectToAction(nameof(Index));
-        }
-
-        private bool DayExists(int id)
-        {
-            return _context.Days.Any(e => e.DayId == id);
-        }
-
-        //GET
-        public IActionResult AddSubject(int? id)
-        {
-            var day = _context.Days.Single(d => d.DayId == id);
-            IEnumerable<Subject> subjects = _context.Subjects.ToList();
-
-
-            return View(new AddSubjectViewModel(day, subjects));
-        }
-
-        //POST
-        [HttpPost]
-        public IActionResult AddSubject(AddSubjectViewModel viewModel)
-        {
-            if (ModelState.IsValid)
-            {
-                var existingDaysubjects = _context.DaySubjects
-                .Where(ds => ds.DayId == viewModel.DaySubject.DayId)
-                .Where(ds => ds.SubjectId == viewModel.DaySubject.SubjectId).ToList();
-
-                if (existingDaysubjects.Count() == 0)
-                {
-                    _context.DaySubjects.Add(viewModel.DaySubject);
-                    _context.SaveChanges();
-                    return Redirect("/Day/Index");
-                }
-                TempData["ErrorMessage"] = "Subject is already added to Day";
-            }
-            return RedirectToAction("AddSubject", viewModel);
         }
     }
 }

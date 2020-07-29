@@ -123,7 +123,7 @@ namespace SchoolTest2.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var subject = await _context.Subjects.FindAsync(id);
+            var subject = await _db.GetSubjectAsync(id);
             await _db.RemoveAsync(subject);
             return RedirectToAction(nameof(Index));
         }

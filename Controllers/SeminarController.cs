@@ -1,10 +1,5 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
 using SchoolTest2.Data;
 using SchoolTest2.Models;
 using SchoolTest2.ViewModels;
@@ -110,8 +105,7 @@ namespace SchoolTest2.Controllers
                 return NotFound();
             }
 
-            var seminar = await _context.Seminars
-                .FirstOrDefaultAsync(m => m.SeminarId == id);
+            var seminar = await _db.GetSeminarAsync((int)id);
             if (seminar == null)
             {
                 return NotFound();
@@ -125,15 +119,9 @@ namespace SchoolTest2.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var seminar = await _context.Seminars.FindAsync(id);
-            _context.Seminars.Remove(seminar);
-            await _context.SaveChangesAsync();
+            var seminar = await _db.GetSeminarAsync((int)id);
+            await _db.RemoveAsync(seminar);
             return RedirectToAction(nameof(Index));
-        }
-
-        private bool SeminarExists(int id)
-        {
-            return _context.Seminars.Any(e => e.SeminarId == id);
         }
     }
 }

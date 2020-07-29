@@ -8628,19 +8628,19 @@
     ]
   },
   "packageFolders": {
-    "/Users/Mark/.nuget/packages/": {}
+    "/Users/markvandenbeemt/.nuget/packages/": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/Users/Mark/Dropbox/Code/C#/Freubel/SchoolTest2/SchoolTest2.csproj",
+      "projectUniqueName": "/Users/markvandenbeemt/Projects/git/schooltest2/SchoolTest2/SchoolTest2.csproj",
       "projectName": "SchoolTest2",
-      "projectPath": "/Users/Mark/Dropbox/Code/C#/Freubel/SchoolTest2/SchoolTest2.csproj",
-      "packagesPath": "/Users/Mark/.nuget/packages/",
-      "outputPath": "/Users/Mark/Dropbox/Code/C#/Freubel/SchoolTest2/obj/",
+      "projectPath": "/Users/markvandenbeemt/Projects/git/schooltest2/SchoolTest2/SchoolTest2.csproj",
+      "packagesPath": "/Users/markvandenbeemt/.nuget/packages/",
+      "outputPath": "/Users/markvandenbeemt/Projects/git/schooltest2/SchoolTest2/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "/Users/Mark/.config/NuGet/NuGet.Config"
+        "/Users/markvandenbeemt/.config/NuGet/NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "netcoreapp3.1"

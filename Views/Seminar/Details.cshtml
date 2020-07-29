@@ -35,11 +35,11 @@
 @foreach (var semDay in Model.SeminarDays)
 {
             <tr>
-                <td>@semDay.Day.Name &nbsp;</td>
+                <td>@semDay.Day.Name</td>
                 <td>
     @foreach (var daySub in semDay.Day.DaySubjects)
     {
-                    @daySub.Subject.Name
+                    @daySub.Subject.Name <span>&nbsp;</span>
     }
                 </td>
             </tr>

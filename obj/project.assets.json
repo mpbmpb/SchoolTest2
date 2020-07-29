@@ -8640,7 +8640,7 @@
       "outputPath": "/Users/Mark/Projects/git/SchoolTest2/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "/Users/Mark/.config/NuGet/NuGet.Config"
+        "/Users/Mark/.nuget/NuGet/NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "netcoreapp3.1"

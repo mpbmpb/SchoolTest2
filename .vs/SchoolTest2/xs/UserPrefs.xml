@@ -1,0 +1,27 @@
+﻿<Properties GitUserInfo="UsingGIT" StartupConfiguration="{2B1A5A25-5F4B-4E78-8F54-D6F20A5D94FC}|Default">
+  <MonoDevelop.Ide.Workbench>
+    <Files>
+      <File FileName="Program.cs" Line="27" Column="2" />
+    </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State name="__root__">
+          <Node name="SchoolTest2" expanded="True">
+            <Node name="SchoolTest2" expanded="True">
+              <Node name="Controllers" expanded="True" />
+              <Node name="ViewModels" expanded="True" />
+              <Node name="Program.cs" selected="True" />
+            </Node>
+          </Node>
+        </State>
+      </Pad>
+    </Pads>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.ItemProperties.SchoolTest2 PreferredExecutionTarget="/Applications/Google Chrome.app" />
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MultiItemStartupConfigurations />
+</Properties>

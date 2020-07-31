@@ -27,7 +27,13 @@ namespace SchoolTest2
 }
 
 
-//TODO make course class holds courseDesign and list of all dates, times, venues for days
+//TODO register new classes in DbContext
+
+//TODO scaffold new crud views
+
+//TODO style & expand crud views
+
+//TODO make calendar date picker
 
 //TODO make calendar controller that displays all events
 
@@ -36,7 +42,5 @@ namespace SchoolTest2
 //TODO make teacher class
 
 //TODO make enrollment class (m2m)
-
-//TODO make venue class
 
 //TODO add login / roles

@@ -13,6 +13,7 @@ namespace SchoolTest2.Models
         public DbSet<DaySubject> DaySubjects { get; set; }
         public DbSet<Seminar> Seminars { get; set; }
         public DbSet<SeminarDay> SeminarDays { get; set; }
+        public DbSet<CourseDesign> CourseDesigns { get; set; }
         public DbSet<CourseSeminar> CourseSeminars { get; set; }
 
         public SchoolContext(DbContextOptions<SchoolContext> options)
@@ -31,8 +32,5 @@ namespace SchoolTest2.Models
             modelBuilder.Entity<CourseSeminar>()
                 .HasKey(cs => new { cs.CourseDesignId, cs.SeminarId });
         }
-
-        public DbSet<SchoolTest2.Models.CourseDesign> CourseDesign { get; set; }
-        
     }
 }

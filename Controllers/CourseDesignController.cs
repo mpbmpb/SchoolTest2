@@ -26,7 +26,7 @@ namespace SchoolTest2.Controllers
         // GET: CourseDesign
         public async Task<IActionResult> Index()
         {
-            return View(await _context.CourseDesign.ToListAsync());
+            return View(await _db.GetAllCourseDesignsAsync());
         }
 
         // GET: CourseDesign/Details/5
@@ -37,8 +37,7 @@ namespace SchoolTest2.Controllers
                 return NotFound();
             }
 
-            var courseDesign = await _context.CourseDesign
-                .FirstOrDefaultAsync(m => m.CourseDesignId == id);
+            var courseDesign = await _db.GetCourseDesignIncludingSubjectsAsync((int)id);
             if (courseDesign == null)
             {
                 return NotFound();
@@ -48,25 +47,23 @@ namespace SchoolTest2.Controllers
         }
 
         // GET: CourseDesign/Create
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
-            return View();
+            var seminars = await _db.GetAllSeminarsAsync();
+            return View(new CourseDesignViewModel(seminars));
         }
 
         // POST: CourseDesign/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("CourseDesignId,Name,Description")] CourseDesign courseDesign)
+        public async Task<IActionResult> Create(CourseDesignViewModel model)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(courseDesign);
-                await _context.SaveChangesAsync();
+                await _db.AddCourseDesignAsync(model);
                 return RedirectToAction(nameof(Index));
             }
-            return View(courseDesign);
+            return View(model);
         }
 
         // GET: CourseDesign/Edit/5
@@ -77,12 +74,14 @@ namespace SchoolTest2.Controllers
                 return NotFound();
             }
 
-            var courseDesign = await _context.CourseDesign.FindAsync(id);
+            var courseDesign = await _db.GetCourseDesignIncludingSubjectsAsync((int)id);
             if (courseDesign == null)
             {
                 return NotFound();
             }
-            return View(courseDesign);
+
+            var seminars = await _db.GetAllSeminarsAsync();
+            return View(new CourseDesignViewModel(courseDesign, seminars));
         }
 
         // POST: CourseDesign/Edit/5
@@ -90,34 +89,21 @@ namespace SchoolTest2.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("CourseDesignId,Name,Description")] CourseDesign courseDesign)
+        public async Task<IActionResult> Edit(int id, CourseDesignViewModel model)
         {
-            if (id != courseDesign.CourseDesignId)
+            int courseDesignId = model.CourseDesign.CourseDesignId;
+            if (id != courseDesignId)
             {
                 return NotFound();
             }
 
             if (ModelState.IsValid)
             {
-                try
-                {
-                    _context.Update(courseDesign);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!CourseDesignExists(courseDesign.CourseDesignId))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
+                bool success = await _db.UpdateCourseDesignAsync(model);
+                if (success) { return RedirectToAction(nameof(Index)); }
+                return NotFound();
             }
-            return View(courseDesign);
+            return View(model);
         }
 
         // GET: CourseDesign/Delete/5
@@ -128,7 +114,7 @@ namespace SchoolTest2.Controllers
                 return NotFound();
             }
 
-            var courseDesign = await _context.CourseDesign
+            var courseDesign = await _context.CourseDesigns
                 .FirstOrDefaultAsync(m => m.CourseDesignId == id);
             if (courseDesign == null)
             {
@@ -143,15 +129,15 @@ namespace SchoolTest2.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var courseDesign = await _context.CourseDesign.FindAsync(id);
-            _context.CourseDesign.Remove(courseDesign);
+            var courseDesign = await _context.CourseDesigns.FindAsync(id);
+            _context.CourseDesigns.Remove(courseDesign);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool CourseDesignExists(int id)
         {
-            return _context.CourseDesign.Any(e => e.CourseDesignId == id);
+            return _context.CourseDesigns.Any(e => e.CourseDesignId == id);
         }
     }
 }

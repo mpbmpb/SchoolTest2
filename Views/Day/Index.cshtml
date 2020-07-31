@@ -15,9 +15,10 @@
 <table class="table">
     <thead class="thead-dark">
         <tr>
-            <th>Day</th>
-            <th>Subjects</th>
-            <th></th>
+            <th width="10%">Day</th>
+            <th width="40%">Description</th>
+            <th width="25%">Subjects</th>
+            <th width="35%"></th>
         </tr>
     </thead>
     <tbody>
@@ -25,6 +26,8 @@
         <tr>
             <td>
                 @item.Name
+            </td><td>
+                @item.Description
             </td>
             <td>
     @foreach (var sub in item.DaySubjects)

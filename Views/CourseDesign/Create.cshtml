@@ -1,36 +1,56 @@
-@model SchoolTest2.Models.CourseDesign
+@model CourseDesignViewModel
 
 @{
     ViewData["Title"] = "Create";
 }
 
-<h1>Create</h1>
-
-<h4>CourseDesign</h4>
+<h4 class="category-heading mb-3">Create new coursedesign</h4>
 <hr />
 <div class="row">
-    <div class="col-md-4">
+    <div class="col-md-12">
         <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Name" class="control-label"></label>
-                <input asp-for="Name" class="form-control" />
-                <span asp-validation-for="Name" class="text-danger"></span>
+            <div class="col-md-6 pl-0">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="@Model.CourseDesign.Name" class="control-label"></label>
+                    <input asp-for="@Model.CourseDesign.Name" class="form-control" />
+                    <span asp-validation-for="@Model.CourseDesign.Name" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="@Model.CourseDesign.Description" class="control-label"></label>
+                    <input asp-for="@Model.CourseDesign.Description" class="form-control" />
+                    <span asp-validation-for="@Model.CourseDesign.Description" class="text-danger"></span>
+                </div>
             </div>
-            <div class="form-group">
-                <label asp-for="Description" class="control-label"></label>
-                <input asp-for="Description" class="form-control" />
-                <span asp-validation-for="Description" class="text-danger"></span>
+            <div>
+                <hr />
+                <p>Add seminars</p>
+                <div class="form-inline">
+@for (int i = 0; i < Model.CheckList.Count; i++)
+{
+                    <div class="col align-self-start col-sm-3 col-md-2">
+                        <div class="form-inline">
+                            <label asp-for="@Model.CheckList[i].Name" class="control-label mr-3 mb-3">@Model.CheckList[i].Name</label>
+                            <input type="checkbox" asp-for="@Model.CheckList[i].IsSelected" class="custom-checkbox mr-3 mb-3" />
+                            <input type="hidden" asp-for="@Model.CheckList[i].Id" />
+                            <input type="hidden" asp-for="@Model.CheckList[i].Name" />
+                        </div>
+                        <dl>
+    @foreach (var sd in Model.Seminars[i].SeminarDays)
+    {
+                            <dd>@sd.Day.Name &nbsp; @sd.Day.Description</dd>
+    }
+                        </dl>
+                    </div>
+}
+                </div>
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
+                <a asp-action="Index" class="btn btn-primary">Back to List</a>
             </div>
         </form>
     </div>
-</div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
 </div>
 
 @section Scripts {

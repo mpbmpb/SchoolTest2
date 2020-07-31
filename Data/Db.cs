@@ -28,9 +28,8 @@ namespace SchoolTest2.Data
         public async Task AddDayAsync(DayViewModel model)
         {
             var day = new Day();
-            day.Name = model.Day.Name;
-            _context.Add(day);
-            await _context.SaveChangesAsync();
+            day.Name = model.Day.Name;  
+            await AddAsync(day);
 
             foreach (var item in model.CheckList)
             {
@@ -48,10 +47,11 @@ namespace SchoolTest2.Data
             await _context.SaveChangesAsync();
         }
 
+        
+
         public async Task AddSeminarAsync(SeminarViewModel model)
         {
-            _context.Add(model.Seminar);
-            await _context.SaveChangesAsync();
+            await AddAsync(model.Seminar);
 
             var seminarDays = await _context.SeminarDays.ToListAsync();
             foreach (var item in model.CheckList)
@@ -67,6 +67,38 @@ namespace SchoolTest2.Data
                 }
             }
             await _context.SaveChangesAsync();
+        }
+
+        public async Task AddCourseDesignAsync(CourseDesignViewModel model)
+        {
+            await AddAsync(model.CourseDesign);
+
+            foreach (var item in model.CheckList)
+            {
+                if (item.IsSelected)
+                {
+                    CourseSeminar cs = new CourseSeminar()
+                    {
+                        CourseDesignId = model.CourseDesign.CourseDesignId,
+                        SeminarId = item.Id
+                    };
+                    _context.Add(cs);
+                }
+            }
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task<List<CourseDesign>> GetAllCourseDesignsAsync()
+        {
+            return await _context.CourseDesigns
+                .Include(cd => cd.CourseSeminars)
+                .ThenInclude(cs => cs.Seminar)
+                .ThenInclude(s => s.SeminarDays)
+                .ThenInclude(sd => sd.Day)
+                .ThenInclude(d => d.DaySubjects)
+                .ThenInclude(ds => ds.Subject)
+                .ToListAsync();
+
         }
 
         public async Task<Day> GetDayAsync(int id)
@@ -109,11 +141,25 @@ namespace SchoolTest2.Data
                .FirstOrDefaultAsync();
         }
 
-        public async Task<IEnumerable<Seminar>> GetAllSeminarsAsync()
+        public async Task<CourseDesign> GetCourseDesignIncludingSubjectsAsync(int id)
+        {
+            return await _context.CourseDesigns
+                .Where(cd => cd.CourseDesignId == id)
+                .Include(c => c.CourseSeminars)
+                .ThenInclude(cs => cs.Seminar)
+                .ThenInclude(s => s.SeminarDays)
+                .ThenInclude(sd => sd.Day)
+                .ThenInclude(d => d.DaySubjects)
+                .ThenInclude(ds => ds.Subject)
+                .FirstOrDefaultAsync();
+        }
+        public async Task<List<Seminar>> GetAllSeminarsAsync()
         {
             return await _context.Seminars
                .Include(s => s.SeminarDays)
                .ThenInclude(sd => sd.Day)
+               .ThenInclude(d => d.DaySubjects)
+               .ThenInclude(ds => ds.Subject)
                .OrderBy(s => s.Name.ToLower())
                .ToListAsync();
         }
@@ -163,8 +209,8 @@ namespace SchoolTest2.Data
 
         public async Task<bool> UpdateDayAsync(DayViewModel model)
         {
-            bool succes = await UpdateAsync(model.Day);
-            if (!succes) { return false; }
+            bool success = await UpdateAsync(model.Day);
+            if (!success) { return false; }
             var daySubjects = await GetAllDaySubjectsAsync();
 
             foreach (var item in model.CheckList)
@@ -193,8 +239,8 @@ namespace SchoolTest2.Data
 
         public async Task<bool> UpdateSeminarAsync(SeminarViewModel model)
         {
-            bool succes = await UpdateAsync(model.Seminar);
-            if (!succes) { return false; }
+            bool success = await UpdateAsync(model.Seminar);
+            if (!success) { return false; }
             var seminarDays = await _context.SeminarDays.ToListAsync();
 
             foreach (var item in model.CheckList)
@@ -217,6 +263,36 @@ namespace SchoolTest2.Data
                 }
             }
 
+            await _context.SaveChangesAsync();
+            return true;
+        }
+
+        public async Task<bool> UpdateCourseDesignAsync(CourseDesignViewModel model)
+        {
+            bool success = await UpdateAsync(model.CourseDesign);
+            if (!success) { return false; }
+            var courseSeminars = await _context.CourseSeminars.ToListAsync();
+
+            foreach (var item in model.CheckList)
+            {
+                var existingEntry = courseSeminars
+                    .FirstOrDefault(x => x.CourseDesignId == model.CourseDesign.CourseDesignId
+                    && x.SeminarId == item.Id);
+                if (!item.IsSelected && existingEntry != null)
+                {
+                    await RemoveAsync(existingEntry);
+                }
+
+                if (item.IsSelected && existingEntry == null)
+                {
+                    CourseSeminar cs = new CourseSeminar()
+                    {
+                        CourseDesignId = model.CourseDesign.CourseDesignId,
+                        SeminarId = item.Id
+                    };
+                    _context.Add(cs);
+                }
+            }
             await _context.SaveChangesAsync();
             return true;
         }

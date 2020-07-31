@@ -33,7 +33,7 @@ namespace SchoolTest2
 
 //TODO make course class holds courseDesign and list of all dates, times, places for days
 
-//TODO make calendar class that tracks all events
+//TODO make calendar controller that displays all events
 
 //TODO make student class
 

@@ -10,7 +10,6 @@ namespace SchoolTest2.Models
         [Required]
         public string Name { get; set; }
         public string Description { get; set; }
-        public ICollection<CourseDesign> CourseDesigns { get; set; }
-
+        public ICollection<CourseSeminar> CourseSeminars { get; set; }
     }
 }

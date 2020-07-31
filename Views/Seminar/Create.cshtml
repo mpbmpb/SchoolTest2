@@ -32,7 +32,7 @@
 {
                     <div class="col align-self-start col-sm-3 col-md-2">
                         <div class="form-inline">
-                            <label asp-for="@Model.CheckList[i].Name" class="control-label mr-3 mb-3">@Model.CheckList[i].Name</label>
+                            <label asp-for="@Model.CheckList[i].Name" class="category-heading mr-1 mb-3">@Model.CheckList[i].Name</label>
                             <input type="checkbox" asp-for="@Model.CheckList[i].IsSelected" class="custom-checkbox mr-3 mb-3" />
                             <input type="hidden" asp-for="@Model.CheckList[i].Id" />
                             <input type="hidden" asp-for="@Model.CheckList[i].Name" />
@@ -49,7 +49,8 @@
                 <hr />
                 <div class="form-group">
                     <input type="submit" value="Create" class="btn btn-primary" />
-                    <a asp-action="Index" class="btn btn-primary">Back to List</a>
+                    <a class="btn btn-primary" href="previous.html" onClick="history.back();return false;">Back</a>
+                    <a asp-controller="Day" asp-action="Create" class="btn btn-primary">Create new day</a>
                 </div>
             </div>
         </form>

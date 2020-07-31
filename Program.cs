@@ -27,11 +27,7 @@ namespace SchoolTest2
 }
 
 
-//TODO refactor courseDesignController
-
-//TODO add days and subjects to courseDesign views
-
-//TODO make course class holds courseDesign and list of all dates, times, places for days
+//TODO make course class holds courseDesign and list of all dates, times, venues for days
 
 //TODO make calendar controller that displays all events
 
@@ -40,5 +36,7 @@ namespace SchoolTest2
 //TODO make teacher class
 
 //TODO make enrollment class (m2m)
+
+//TODO make venue class
 
 //TODO add login / roles

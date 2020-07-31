@@ -28,6 +28,6 @@
     <form asp-action="Delete">
         <input type="hidden" asp-for="SeminarId" />
         <input type="submit" value="Delete" class="btn btn-danger" />
-        <a asp-action="Index" class="btn btn-primary">Back to List</a>
+        <a class="btn btn-primary" href="previous.html" onClick="history.back();return false;">Back</a>
     </form>
 </div>

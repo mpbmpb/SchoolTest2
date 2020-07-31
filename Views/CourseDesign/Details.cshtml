@@ -15,9 +15,9 @@
             @Html.DisplayFor(model => model.Description)
         </dd>
     </dl>
-    <div>
+    <div class="mb-3">
         <a asp-action="Edit" asp-route-id="@Model.CourseDesignId" class="btn btn-primary">Edit</a>
-        <a asp-action="Index" class="btn btn-primary">Back to List</a>
+        <a class="btn btn-primary" href="previous.html" onClick="history.back();return false;">Back</a>
     </div>
 </div>
 <div>

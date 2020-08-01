@@ -48,8 +48,8 @@ namespace SchoolTest2.Controllers
         // GET: CourseDate/Create
         public IActionResult Create()
         {
-            ViewData["CourseId"] = new SelectList(_context.Courses, "CourseId", "CourseId");
-            ViewData["VenueId"] = new SelectList(_context.Venues, "VenueId", "VenueId");
+            ViewData["CourseId"] = new SelectList(_context.Courses, "CourseId", "Name");
+            ViewData["VenueId"] = new SelectList(_context.Venues, "VenueId", "Name");
             return View();
         }
 

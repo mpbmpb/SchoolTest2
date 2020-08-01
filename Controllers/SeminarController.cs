@@ -8,12 +8,10 @@ namespace SchoolTest2.Controllers
 {
     public class SeminarController : Controller
     {
-        private readonly SchoolContext _context;
         private readonly DbHandler _db;
 
         public SeminarController(SchoolContext context)
         {
-            _context = context;
             _db = new DbHandler(context);
         }
 

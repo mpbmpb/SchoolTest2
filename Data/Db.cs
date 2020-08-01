@@ -25,6 +25,25 @@ namespace SchoolTest2.Data
             await _context.SaveChangesAsync();
         }
 
+        public async Task AddCourseDesignAsync(CourseDesignViewModel model)
+        {
+            await AddAsync(model.CourseDesign);
+
+            foreach (var item in model.CheckList)
+            {
+                if (item.IsSelected)
+                {
+                    CourseSeminar cs = new CourseSeminar()
+                    {
+                        CourseDesignId = model.CourseDesign.CourseDesignId,
+                        SeminarId = item.Id
+                    };
+                    _context.Add(cs);
+                }
+            }
+            await _context.SaveChangesAsync();
+        }
+
         public async Task AddDayAsync(DayViewModel model)
         {
             var day = new Day();
@@ -47,8 +66,6 @@ namespace SchoolTest2.Data
             await _context.SaveChangesAsync();
         }
 
-        
-
         public async Task AddSeminarAsync(SeminarViewModel model)
         {
             await AddAsync(model.Seminar);
@@ -69,25 +86,6 @@ namespace SchoolTest2.Data
             await _context.SaveChangesAsync();
         }
 
-        public async Task AddCourseDesignAsync(CourseDesignViewModel model)
-        {
-            await AddAsync(model.CourseDesign);
-
-            foreach (var item in model.CheckList)
-            {
-                if (item.IsSelected)
-                {
-                    CourseSeminar cs = new CourseSeminar()
-                    {
-                        CourseDesignId = model.CourseDesign.CourseDesignId,
-                        SeminarId = item.Id
-                    };
-                    _context.Add(cs);
-                }
-            }
-            await _context.SaveChangesAsync();
-        }
-
         public async Task AddVenueAsync(VenueViewModel model)
         {
             var con1 = _context.Contacts.FirstOrDefault(x => x.ContactId == model.Venue.Contact1.ContactId);
@@ -96,6 +94,11 @@ namespace SchoolTest2.Data
             model.Venue.Contact2 = con2;
 
             await AddAsync(model.Venue);
+        }
+
+        public async Task<List<Contact>> GetAllContactsAsync()
+        {
+            return await _context.Contacts.ToListAsync();
         }
 
         public async Task<List<CourseDesign>> GetAllCourseDesignsAsync()
@@ -108,7 +111,6 @@ namespace SchoolTest2.Data
                 .ThenInclude(d => d.DaySubjects)
                 .ThenInclude(ds => ds.Subject)
                 .ToListAsync();
-
         }
 
         public async Task<Day> GetDayAsync(int id)
@@ -131,6 +133,11 @@ namespace SchoolTest2.Data
                 .ThenInclude(ds => ds.Subject)
                 .OrderBy(d => d.Name.ToLower())
                 .ToListAsync();
+        }
+
+        public async Task<List<DaySubject>> GetAllDaySubjectsAsync()
+        {
+            return await _context.DaySubjects.ToListAsync();
         }
 
         public async Task<Seminar> GetSeminarAsync(int id)
@@ -192,9 +199,21 @@ namespace SchoolTest2.Data
                 .ToListAsync();
         }
 
-        public async Task<List<DaySubject>> GetAllDaySubjectsAsync()
+        public async Task<Venue> GetVenueAsync(int id)
         {
-            return await _context.DaySubjects.ToListAsync();
+            return await _context.Venues
+                .Where(v => v.VenueId == id)
+                .Include(v => v.Contact1)
+                .Include(v => v.Contact2)
+                .FirstOrDefaultAsync();
+        }
+
+        public async Task<List<Venue>> GetAllVenuesAsync()
+        {
+            return await _context.Venues
+                .Include(v => v.Contact1)
+                .Include(v => v.Contact2)
+                .ToListAsync();
         }
 
         public async Task RemoveAsync(Object entity)
@@ -215,6 +234,48 @@ namespace SchoolTest2.Data
                 return false;
             }
             return true ;
+        }
+
+        public async Task<bool> UpdateVenueAsync(VenueViewModel model)
+        {
+            var con1 = _context.Contacts.FirstOrDefault(x => x.ContactId == model.Venue.Contact1.ContactId);
+            var con2 = _context.Contacts.FirstOrDefault(x => x.ContactId == model.Venue.Contact2.ContactId);
+            model.Venue.Contact1 = con1;
+            model.Venue.Contact2 = con2;
+
+            bool success = await UpdateAsync(model.Venue);
+            if (!success) { return false; }
+            return true;
+        }
+
+        public async Task<bool> UpdateCourseDesignAsync(CourseDesignViewModel model)
+        {
+            bool success = await UpdateAsync(model.CourseDesign);
+            if (!success) { return false; }
+            var courseSeminars = await _context.CourseSeminars.ToListAsync();
+
+            foreach (var item in model.CheckList)
+            {
+                var existingEntry = courseSeminars
+                    .FirstOrDefault(x => x.CourseDesignId == model.CourseDesign.CourseDesignId
+                    && x.SeminarId == item.Id);
+                if (!item.IsSelected && existingEntry != null)
+                {
+                    await RemoveAsync(existingEntry);
+                }
+
+                if (item.IsSelected && existingEntry == null)
+                {
+                    CourseSeminar cs = new CourseSeminar()
+                    {
+                        CourseDesignId = model.CourseDesign.CourseDesignId,
+                        SeminarId = item.Id
+                    };
+                    _context.Add(cs);
+                }
+            }
+            await _context.SaveChangesAsync();
+            return true;
         }
 
         public async Task<bool> UpdateDayAsync(DayViewModel model)
@@ -277,34 +338,6 @@ namespace SchoolTest2.Data
             return true;
         }
 
-        public async Task<bool> UpdateCourseDesignAsync(CourseDesignViewModel model)
-        {
-            bool success = await UpdateAsync(model.CourseDesign);
-            if (!success) { return false; }
-            var courseSeminars = await _context.CourseSeminars.ToListAsync();
-
-            foreach (var item in model.CheckList)
-            {
-                var existingEntry = courseSeminars
-                    .FirstOrDefault(x => x.CourseDesignId == model.CourseDesign.CourseDesignId
-                    && x.SeminarId == item.Id);
-                if (!item.IsSelected && existingEntry != null)
-                {
-                    await RemoveAsync(existingEntry);
-                }
-
-                if (item.IsSelected && existingEntry == null)
-                {
-                    CourseSeminar cs = new CourseSeminar()
-                    {
-                        CourseDesignId = model.CourseDesign.CourseDesignId,
-                        SeminarId = item.Id
-                    };
-                    _context.Add(cs);
-                }
-            }
-            await _context.SaveChangesAsync();
-            return true;
-        }
+        
     }
 }

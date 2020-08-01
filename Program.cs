@@ -30,7 +30,11 @@ namespace SchoolTest2
 
 //TODO style & expand crud views
 
+//TODO disable enter key as submit button
+
 //TODO change redirect on save to back to last page
+
+//TODO refactor _context out of controllers
 
 //TODO make calendar date picker
 

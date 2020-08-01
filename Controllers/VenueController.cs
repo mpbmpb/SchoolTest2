@@ -25,10 +25,7 @@ namespace SchoolTest2.Controllers
         // GET: Venue
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Venues
-                .Include(v => v.Contact1)
-                .Include(v => v.Contact2)
-                .ToListAsync());
+            return View(await _db.GetAllVenuesAsync());
         }
 
         // GET: Venue/Details/5
@@ -39,8 +36,7 @@ namespace SchoolTest2.Controllers
                 return NotFound();
             }
 
-            var venue = await _context.Venues
-                .FirstOrDefaultAsync(m => m.VenueId == id);
+            var venue = await _db.GetVenueAsync((int)id);
             if (venue == null)
             {
                 return NotFound();
@@ -79,12 +75,13 @@ namespace SchoolTest2.Controllers
                 return NotFound();
             }
 
-            var venue = await _context.Venues.FindAsync(id);
+            var venue = await _db.GetVenueAsync((int)id);
             if (venue == null)
             {
                 return NotFound();
             }
-            return View(venue);
+            var contacts = await _db.GetAllContactsAsync();
+            return View(new VenueViewModel(venue, contacts));
         }
 
         // POST: Venue/Edit/5
@@ -92,34 +89,20 @@ namespace SchoolTest2.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("VenueId,Name,Info,Email1,Email2,Phone,Adress,MapsUrl")] Venue venue)
+        public async Task<IActionResult> Edit(int id, VenueViewModel model)
         {
-            if (id != venue.VenueId)
+            if (id != model.Venue.VenueId)
             {
                 return NotFound();
             }
 
             if (ModelState.IsValid)
             {
-                try
-                {
-                    _context.Update(venue);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!VenueExists(venue.VenueId))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
+                bool success = await _db.UpdateVenueAsync(model);
+                if (!success) { return NotFound(); }
                 return RedirectToAction(nameof(Index));
             }
-            return View(venue);
+            return View(model);
         }
 
         // GET: Venue/Delete/5

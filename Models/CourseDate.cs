@@ -8,7 +8,7 @@ namespace SchoolTest2.Models
         public int CourseDateId { get; set; }
         [Required]
         public DateTime Date { get; set; }
-        [Required]
+        public int VenueId { get; set; }
         public Venue Venue { get; set; }
         public string ReservationInfo { get; set; }
         public string Rider { get; set; }

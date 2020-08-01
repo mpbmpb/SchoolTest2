@@ -119,6 +119,13 @@ namespace SchoolTest2.Controllers
             return View(course);
         }
 
+        //GET: Course/AddCourseDates/5
+        public async Task<IActionResult> AddCourseDate(int? id)
+        {
+            var course = await _db.GetCourseIncludingSubjectsAsync((int)id);
+            return View(new CourseViewModel(course));
+        }
+
         // GET: Course/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {

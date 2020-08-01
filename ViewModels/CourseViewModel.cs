@@ -10,6 +10,8 @@ namespace SchoolTest2.ViewModels
         public Course Course { get; set; }
         public List<CourseDesign> CourseDesigns { get; set; }
         public List<SelectListItem> DesignList { get; set; }
+        public List<CourseDate> CourseDates { get; set; }
+        public CourseDate CourseDate { get; set; }
 
         public CourseViewModel()
         {
@@ -49,6 +51,13 @@ namespace SchoolTest2.ViewModels
                 });
 
             }
+        }
+
+        public CourseViewModel(Course course)
+        {
+            Course = course;
+            CourseDate = new CourseDate();
+
         }
     }
 }

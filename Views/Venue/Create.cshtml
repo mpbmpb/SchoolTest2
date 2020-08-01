@@ -1,4 +1,4 @@
-@model SchoolTest2.Models.Venue
+@model VenueViewModel
 
 @{
     ViewData["Title"] = "Create";
@@ -13,49 +13,57 @@
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="Name" class="control-label"></label>
-                <input asp-for="Name" class="form-control" />
-                <span asp-validation-for="Name" class="text-danger"></span>
+                <label asp-for="Venue.Name" class="control-label"></label>
+                <input asp-for="Venue.Name" class="form-control" />
+                <span asp-validation-for="Venue.Name" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Info" class="control-label"></label>
-                <input asp-for="Info" class="form-control" />
-                <span asp-validation-for="Info" class="text-danger"></span>
+                <label asp-for="Venue.Info" class="control-label"></label>
+                <input asp-for="Venue.Info" class="form-control" />
+                <span asp-validation-for="Venue.Info" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Email1" class="control-label"></label>
-                <input asp-for="Email1" class="form-control" />
-                <span asp-validation-for="Email1" class="text-danger"></span>
+                <label asp-for="Venue.Email1" class="control-label"></label>
+                <input asp-for="Venue.Email1" class="form-control" />
+                <span asp-validation-for="Venue.Email1" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Email2" class="control-label"></label>
-                <input asp-for="Email2" class="form-control" />
-                <span asp-validation-for="Email2" class="text-danger"></span>
+                <label asp-for="Venue.Email2" class="control-label"></label>
+                <input asp-for="Venue.Email2" class="form-control" />
+                <span asp-validation-for="Venue.Email2" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Phone" class="control-label"></label>
-                <input asp-for="Phone" class="form-control" />
-                <span asp-validation-for="Phone" class="text-danger"></span>
+                <label asp-for="Venue.Phone" class="control-label"></label>
+                <input asp-for="Venue.Phone" class="form-control" />
+                <span asp-validation-for="Venue.Phone" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Adress" class="control-label"></label>
-                <input asp-for="Adress" class="form-control" />
-                <span asp-validation-for="Adress" class="text-danger"></span>
+                <label asp-for="Venue.Adress" class="control-label"></label>
+                <input asp-for="Venue.Adress" class="form-control" />
+                <span asp-validation-for="Venue.Adress" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="MapsUrl" class="control-label"></label>
-                <input asp-for="MapsUrl" class="form-control" />
-                <span asp-validation-for="MapsUrl" class="text-danger"></span>
+                <label asp-for="Venue.MapsUrl" class="control-label"></label>
+                <input asp-for="Venue.MapsUrl" class="form-control" />
+                <span asp-validation-for="Venue.MapsUrl" class="text-danger"></span>
             </div>
+            <div class="form-group">
+                <label asp-for="Venue.Contact1" class="category-heading"></label>
+                <select asp-for="Venue.Contact1.ContactId" asp-items="Model.ContactList" class="custom-select"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="Venue.Contact2" class="category-heading"></label>
+                <select asp-for="Venue.Contact2.ContactId" asp-items="Model.ContactList" class="custom-select"></select>
+            </div>
+
+            
+
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
+                <a class="btn btn-primary" href="previous.html" onClick="history.back();return false;">Back</a>
             </div>
         </form>
     </div>
-</div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
 </div>
 
 @section Scripts {

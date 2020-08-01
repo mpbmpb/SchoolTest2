@@ -88,6 +88,16 @@ namespace SchoolTest2.Data
             await _context.SaveChangesAsync();
         }
 
+        public async Task AddVenueAsync(VenueViewModel model)
+        {
+            var con1 = _context.Contacts.FirstOrDefault(x => x.ContactId == model.Venue.Contact1.ContactId);
+            var con2 = _context.Contacts.FirstOrDefault(x => x.ContactId == model.Venue.Contact2.ContactId);
+            model.Venue.Contact1 = con1;
+            model.Venue.Contact2 = con2;
+
+            await AddAsync(model.Venue);
+        }
+
         public async Task<List<CourseDesign>> GetAllCourseDesignsAsync()
         {
             return await _context.CourseDesigns

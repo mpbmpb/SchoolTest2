@@ -5,23 +5,30 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using SchoolTest2.Data;
 using SchoolTest2.Models;
+using SchoolTest2.ViewModels;
 
 namespace SchoolTest2.Controllers
 {
     public class VenueController : Controller
     {
         private readonly SchoolContext _context;
+        private readonly DbHandler _db;
 
         public VenueController(SchoolContext context)
         {
             _context = context;
+            _db = new DbHandler(context);
         }
 
         // GET: Venue
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Venues.ToListAsync());
+            return View(await _context.Venues
+                .Include(v => v.Contact1)
+                .Include(v => v.Contact2)
+                .ToListAsync());
         }
 
         // GET: Venue/Details/5
@@ -43,9 +50,10 @@ namespace SchoolTest2.Controllers
         }
 
         // GET: Venue/Create
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
-            return View();
+            var contacts = await _context.Contacts.ToListAsync();
+            return View(new VenueViewModel(contacts));
         }
 
         // POST: Venue/Create
@@ -53,15 +61,14 @@ namespace SchoolTest2.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("VenueId,Name,Info,Email1,Email2,Phone,Adress,MapsUrl")] Venue venue)
+        public async Task<IActionResult> Create(VenueViewModel model)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(venue);
-                await _context.SaveChangesAsync();
+                await _db.AddVenueAsync(model);
                 return RedirectToAction(nameof(Index));
             }
-            return View(venue);
+            return View(model);
         }
 
         // GET: Venue/Edit/5

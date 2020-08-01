@@ -9,63 +9,78 @@
 <p>
     <a asp-action="Create">Create New</a>
 </p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Name)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Info)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Email1)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Email2)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Phone)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Adress)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.MapsUrl)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Info)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Email1)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Email2)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Phone)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Adress)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.MapsUrl)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.VenueId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.VenueId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.VenueId">Delete</a>
-            </td>
-        </tr>
+
+@foreach (var item in Model)
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @item.Name
+                </th>
+                <th>Info</th>
+                <th></th>
+                <th>
+                    <a asp-action="Edit" asp-route-id="@item.VenueId">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.VenueId">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.VenueId">Delete</a>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><b>Info</b></td>
+                <td><b></b></td>
+                <td><b></b></td>
+                <td><b>Phone</b></td>
+            </tr>
+            <tr>
+                <td colspan="3">@item.Info</td>
+                <td>@item.Phone</td>
+            </tr>
+            <tr>
+                <td><b>Email1</b></td>
+                <td><b>Email2</b></td>
+                <td><b>Adress</b></td>
+                <td><b>Maps link</b></td>
+            </tr>
+            <tr>
+                <td>@item.Email1</td>
+                <td>@item.Email2</td>
+                <td>@item.Adress</td>
+                <td>@item.MapsUrl</td>
+            </tr>
+    @if (item.Contact1 != null)
+    {
+            <tr>
+                <td><b>Contact1</b></td>
+                <td><b>Email</b></td>
+                <td><b>Phone</b></td>
+                <td><b>Adress</b></td>
+            </tr>
+            <tr>
+                <td>@item.Contact1.Name</td>
+                <td>@item.Contact1.Email</td>
+                <td>@item.Contact1.Phone</td>
+                <td>@item.Contact1.Adress</td>
+            </tr>
+    }
+    @if (item.Contact2 != null)
+    {
+            <tr>
+                <td><b>Contact2</b></td>
+                <td><b>Email</b></td>
+                <td><b>Phone</b></td>
+                <td><b>Adress</b></td>
+            </tr>
+            <tr>
+                <td>@item.Contact2.Name</td>
+                <td>@item.Contact2.Email</td>
+                <td>@item.Contact2.Phone</td>
+                <td>@item.Contact2.Adress</td>
+            </tr>
+    }
+
+        </tbody>
+    </table>
 }
-    </tbody>
-</table>

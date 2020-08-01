@@ -47,7 +47,8 @@ namespace SchoolTest2.Data
         public async Task AddDayAsync(DayViewModel model)
         {
             var day = new Day();
-            day.Name = model.Day.Name;  
+            day.Name = model.Day.Name;
+            day.Description = model.Day.Description;
             await AddAsync(day);
 
             foreach (var item in model.CheckList)
@@ -64,6 +65,13 @@ namespace SchoolTest2.Data
             }
 
             await _context.SaveChangesAsync();
+        }
+
+        public async Task AddCourseAsync(CourseViewModel model)
+        {
+            var design = _context.CourseDesigns.FirstOrDefault(x => x.CourseDesignId == model.Course.CourseDesign.CourseDesignId);
+            model.Course.CourseDesign = design;
+            await AddAsync(model.Course);
         }
 
         public async Task AddSeminarAsync(SeminarViewModel model)
@@ -101,6 +109,35 @@ namespace SchoolTest2.Data
             return await _context.Contacts.ToListAsync();
         }
 
+        public async Task<Course> GetCourseIncludingSubjectsAsync(int id)
+        {
+            return await _context.Courses
+                .Where(c => c.CourseId == id)
+                .Include(c => c.CourseDates)
+                .Include(c => c.CourseDesign)
+                .ThenInclude(cd => cd.CourseSeminars)
+                .ThenInclude(cs => cs.Seminar)
+                .ThenInclude(s => s.SeminarDays)
+                .ThenInclude(sd => sd.Day)
+                .ThenInclude(d => d.DaySubjects)
+                .ThenInclude(ds => ds.Subject)
+                .FirstOrDefaultAsync();
+        }
+
+        public async Task<List<Course>> GetAllCoursesAsync()
+        {
+            return await _context.Courses
+                .Include(c => c.CourseDates)
+                .Include(c => c.CourseDesign)
+                .ThenInclude(cd => cd.CourseSeminars)
+                .ThenInclude(cs => cs.Seminar)
+                .ThenInclude(s => s.SeminarDays)
+                .ThenInclude(sd => sd.Day)
+                .ThenInclude(d => d.DaySubjects)
+                .ThenInclude(ds => ds.Subject)
+                .ToListAsync();
+        }
+
         public async Task<List<CourseDesign>> GetAllCourseDesignsAsync()
         {
             return await _context.CourseDesigns
@@ -111,6 +148,11 @@ namespace SchoolTest2.Data
                 .ThenInclude(d => d.DaySubjects)
                 .ThenInclude(ds => ds.Subject)
                 .ToListAsync();
+        }
+
+        public async Task<List<CourseDesign>> GetOnlyCourseDesignsAsync()
+        {
+            return await _context.CourseDesigns.ToListAsync();
         }
 
         public async Task<Day> GetDayAsync(int id)

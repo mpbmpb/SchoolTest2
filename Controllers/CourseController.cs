@@ -5,23 +5,27 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using SchoolTest2.Data;
 using SchoolTest2.Models;
+using SchoolTest2.ViewModels;
 
 namespace SchoolTest2.Controllers
 {
     public class CourseController : Controller
     {
         private readonly SchoolContext _context;
+        private readonly DbHandler _db;
 
         public CourseController(SchoolContext context)
         {
             _context = context;
+            _db = new DbHandler(context);
         }
 
         // GET: Course
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Courses.ToListAsync());
+            return View(await _db.GetAllCoursesAsync());
         }
 
         // GET: Course/Details/5
@@ -32,8 +36,7 @@ namespace SchoolTest2.Controllers
                 return NotFound();
             }
 
-            var course = await _context.Courses
-                .FirstOrDefaultAsync(m => m.CourseId == id);
+            var course = await _db.GetCourseIncludingSubjectsAsync((int)id);
             if (course == null)
             {
                 return NotFound();
@@ -43,9 +46,9 @@ namespace SchoolTest2.Controllers
         }
 
         // GET: Course/Create
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
-            return View();
+            return View(new CourseViewModel(await _db.GetOnlyCourseDesignsAsync()));
         }
 
         // POST: Course/Create
@@ -53,15 +56,15 @@ namespace SchoolTest2.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("CourseId,Name,Description")] Course course)
+        public async Task<IActionResult> Create(CourseViewModel model)
         {
+            var course = model.Course;
             if (ModelState.IsValid)
             {
-                _context.Add(course);
-                await _context.SaveChangesAsync();
+                await _db.AddCourseAsync(model);
                 return RedirectToAction(nameof(Index));
             }
-            return View(course);
+            return View(model);
         }
 
         // GET: Course/Edit/5
@@ -72,12 +75,13 @@ namespace SchoolTest2.Controllers
                 return NotFound();
             }
 
-            var course = await _context.Courses.FindAsync(id);
+            var course = await _db.GetCourseIncludingSubjectsAsync((int)id);
             if (course == null)
             {
                 return NotFound();
             }
-            return View(course);
+            var designs = await _db.GetOnlyCourseDesignsAsync();
+            return View(new CourseViewModel(course, designs));
         }
 
         // POST: Course/Edit/5

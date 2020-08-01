@@ -28,8 +28,6 @@ namespace SchoolTest2
 
 
 
-//TODO style & expand crud views
-
 //TODO disable enter key as submit button
 
 //TODO change redirect on save to back to last page

@@ -59,7 +59,7 @@ namespace SchoolTest2.Controllers
             {
                 _context.Add(contact);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return Redirect(Request.Headers["Referer"].ToString());
             }
             return View(contact);
         }
@@ -110,7 +110,7 @@ namespace SchoolTest2.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return Redirect(Request.Headers["Referer"].ToString());
             }
             return View(contact);
         }

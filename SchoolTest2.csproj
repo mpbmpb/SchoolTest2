@@ -32,6 +32,10 @@
     <Content Remove="wwwroot\Assets\MicLogoIcon.png" />
   </ItemGroup>
   <ItemGroup>
+    <None Remove="MySchool.db-wal" />
+    <None Remove="MySchool.db-shm" />
+  </ItemGroup>
+  <ItemGroup>
     <None Include="wwwroot\Assets\MicLogoIcon.png" />
   </ItemGroup>
 </Project>

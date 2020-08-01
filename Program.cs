@@ -27,11 +27,10 @@ namespace SchoolTest2
 }
 
 
-//TODO register new classes in DbContext
-
-//TODO scaffold new crud views
 
 //TODO style & expand crud views
+
+//TODO change redirect on save to back to last page
 
 //TODO make calendar date picker
 

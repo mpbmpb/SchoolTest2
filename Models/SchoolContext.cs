@@ -15,6 +15,10 @@ namespace SchoolTest2.Models
         public DbSet<SeminarDay> SeminarDays { get; set; }
         public DbSet<CourseDesign> CourseDesigns { get; set; }
         public DbSet<CourseSeminar> CourseSeminars { get; set; }
+        public DbSet<Course> Courses { get; set; }
+        public DbSet<CourseDate> CourseDates { get; set; }
+        public DbSet<Venue> Venues { get; set; }
+        public DbSet<Contact> Contacts { get; set; }
 
         public SchoolContext(DbContextOptions<SchoolContext> options)
             : base(options)

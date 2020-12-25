@@ -1,0 +1,36 @@
+﻿{
+ "$schema": "http://json.schemastore.org/template",
+ "author": "Mark",
+ "classifications": [],
+ "description": "copy to try out lazy loading",
+ "name": "SchoolTest2",
+ "defaultName": "SchoolTest2",
+ "identity": "MyTemplate.SchoolTest2.CSharp",
+ "groupIdentity": "MyTemplate.SchoolTest2",
+ "tags": {
+   "language": "C#",
+   "type": "project",
+   "vsmac-category": "other/net/general"
+ },
+ "shortName": "SchoolTest2",
+ "sourceName": "SchoolTest2",
+ "guids": [
+   "{2B1A5A25-5F4B-4E78-8F54-D6F20A5D94FC}"
+ ],
+ "sources": [
+   {
+     "modifiers": [
+       {
+         "exclude": [
+           ".vs/**/*"
+         ]
+       }
+     ]
+   }
+ ],
+ "primaryOutputs": [
+   {
+     "path": "SchoolTest2.csproj"
+   }
+ ]
+}
